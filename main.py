@@ -25,9 +25,11 @@ def gerar_cartela_demorado():
 def imprimir_cartelas(cartelas, sorteadas):
     for jogador, cartela in cartelas.items():
         print(f"\nCartela do jogador {jogador}:")
-        for linha in cartela:
+
+        for linha in range(len(cartela[0])):
             linha_impressa = []
-            for numero in linha:
+            for coluna in range(len(cartela)):
+                numero = cartela[coluna][linha]
                 if numero in sorteadas:
                     linha_impressa.append(f"[{numero}]")  
                 else:
@@ -79,7 +81,12 @@ def jogar_bingo():
        
         ganhadores = []
         for jogador, cartela in cartelas.items():
-            if all(any(numero in sorteadas for numero in linha) for linha in cartela):
+            cartela_incompleta = False
+            for linha in cartela:
+                for numero in linha:
+                    if not numero in sorteadas:
+                        cartela_incompleta = True
+            if not cartela_incompleta:
                 ganhadores.append(jogador)
         
         if ganhadores:
